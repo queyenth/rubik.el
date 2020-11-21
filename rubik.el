@@ -4,26 +4,26 @@
 (define-derived-mode rubik-mode special-mode "Rubik")
 
 (defconst *rubik-scramble-basic-moves*
-  '(("R" nil) ("L" nil) ("U" nil) ("D" nil) ("F" nil) ("B" nil))
+  '(("R" . nil) ("L" . nil) ("U" . nil) ("D" . nil) ("F" . nil) ("B" . nil))
   "Just basic moves, no prime no double.")
 
 (defun move-to-string (move)
   "Convert MOVE to string."
-  (if (cadr move)
-      (concat (car move) (char-to-string (cadr move)))
+  (if (cdr move)
+      (concat (car move) (char-to-string (cdr move)))
       (car move)))
 
 (defun get-prime-version-move (move)
   "Get prime version of MOVE."
-  `(,(car move) ?\'))
+  (cons (car move) ?\'))
 
 (defun get-doubled-version-move (move)
   "Get doubled version of MOVE."
-  `(,(car move) ?2))
+  (cons (car move) ?2))
 
 (defun get-version-of-move (move)
   "Get version of MOVE."
-  (cadr move))
+  (cdr move))
 
 (defun is-prime-move? (move)
   "Predicate to detect if MOVE is prime move."
@@ -42,7 +42,7 @@
 (defun get-basic-version-of-move (move)
   "Get basic versionof MOVE."
   (if (or (is-prime-move? move) (is-doubled-move? move))
-      `(,(car move) nil)
+      (cons (car move) nil)
       move))
 
 (defconst *rubik-scramble-moves*
